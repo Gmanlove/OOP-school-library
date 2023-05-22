@@ -1,4 +1,6 @@
 require_relative 'app'
+require_relative 'main_logic'
+require_relative 'main_introduction'
 
 def display_menu_options
   puts 'Please choose an option by entering a number:'
@@ -9,31 +11,6 @@ def display_menu_options
   puts '5- Create a rental'
   puts '6- List all rentals for a given person id'
   puts '7- Exit'
-end
-
-def run_app(app)
-  menu_options = {
-    '1' => :list_books,
-    '2' => :list_people,
-    '3' => :add_person,
-    '4' => :add_book,
-    '5' => :add_rental,
-    '6' => :list_rentals,
-    '7' => :exit
-  }
-
-  loop do
-    display_menu_options
-    input = gets.chomp
-
-    if menu_options.key?(input)
-      action = menu_options[input]
-      app.send(action)
-      break if action == :exit
-    else
-      puts 'Invalid input. Please try again.'
-    end
-  end
 end
 
 def main
