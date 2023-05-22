@@ -1,4 +1,6 @@
 require_relative 'app'
+require_relative 'main_logic'
+require_relative 'main_introduction'
 
 class Menu
   def self.display_options
@@ -11,43 +13,6 @@ class Menu
     puts '6- List all rentals for a given person id'
     puts '7- Exit'
   end
-end
-
-class AppRunner
-  def initialize(app)
-    @app = app
-  end
-
-  def run
-    menu_options = {
-      '1' => :list_books,
-      '2' => :list_people,
-      '3' => :add_person,
-      '4' => :add_book,
-      '5' => :add_rental,
-      '6' => :list_rentals,
-      '7' => :exit
-    }
-
-    loop do
-      Menu.display_options
-      input = gets.chomp
-
-      if menu_options.key?(input)
-        action = menu_options[input]
-        @app.send(action)
-        break if action == :exit
-      else
-        puts 'Invalid input. Please try again.'
-      end
-    end
-  end
-end
-
-def main
-  app = App.new
-  puts 'Welcome to the School Library App!'
-  AppRunner.new(app).run
 end
 
 main
