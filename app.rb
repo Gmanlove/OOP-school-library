@@ -109,4 +109,56 @@ class App
     puts "Book created successfuly!\n\n"
     line_return
   end
- 
+ def add_rental
+    if @books.empty?
+      puts 'No book record found'
+    elsif @persons.empty?
+      puts 'No person record found'
+    else
+      puts 'Select a book from the following list by number'
+      @books.each_with_index do |book, index|
+        puts "#{index}) Title: #{book['title']}, Author: #{book['author']}"
+      end
+
+      book_index = gets.chomp.to_i
+
+      puts 'Select a person from the following list by number (not ID)'
+      @persons.each_with_index do |person, index|
+        puts "#{index}) [#{person['class']}] Name: #{person['name']}, ID: #{person['id']}, Age: #{person['age']}"
+      end
+
+      person_index = gets.chomp.to_i
+
+      puts 'Add date:'
+      date = gets.chomp
+      rental = Rental.new(date, @books[book_index], @persons[person_index])
+      @rentals << rental.to_h
+      File.write('rentals.json', JSON.generate(@rentals))
+      puts "Rental created successfully!\n\n"
+    end
+  end
+def list_rentals
+    @rentals = JSON.parse(File.read('rentals.json')) if File.exist?('rentals.json')
+
+    if @rentals.empty?
+      puts 'There are currently no rentals.'
+      line_return
+      return
+    end
+
+    print 'ID of person: '
+    id = gets.chomp.to_i
+
+    rentals = @rentals.filter { |rental| rental['person']['id'] == id }
+
+    if rentals.empty?
+      puts 'There are currently no rentals for this person!'
+    else
+      puts 'Rentals:'
+      rentals.each do |rental|
+        puts "Date: #{rental['date']}, Book '#{rental['book']['title']}' by #{rental['book']['author']}"
+      end
+    end
+    line_return
+  end
+end
