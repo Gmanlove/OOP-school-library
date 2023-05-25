@@ -32,5 +32,10 @@ describe Student do
         student.classroom = classroom
       end
     end
+    describe '#play_hooky' do
+      it 'returns a string representing playing hooky' do
+        expect(student.play_hooky).to eq('¯\(ツ)/¯')
+      end
+    end
   end
 end
