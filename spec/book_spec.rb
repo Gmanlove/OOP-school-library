@@ -1,23 +1,39 @@
-require './book'
+require_relative '../book'
+require_relative '../rentable'
 
-describe Book do
-  before :each do
-    @book = Book.new('Title', 'Author')
-  end
-
-  it 'should return a Book object' do
-    expect(@book).to be_an_instance_of Book
-  end
+RSpec.describe Book do
+  let(:book) { Book.new('Title', 'Author') }
+  let(:person) { instance_double('Person') }
+  let(:date) { instance_double('Date') }
 
   describe '#title' do
-    it 'should return a book title' do
-      expect(@book.title).to eql 'Title'
+    it 'returns the book title' do
+      expect(book.title).to eq('Title')
     end
   end
 
   describe '#author' do
-    it 'should return a book author' do
-      expect(@book.author).to eql 'Author'
+    it 'returns the book author' do
+      expect(book.author).to eq('Author')
+    end
+  end
+
+  describe '#add_rental' do
+    it 'creates a new rental with the person and book' do
+      expect(Rental).to receive(:new).with(date, person, book)
+      book.add_rental(person, date)
+    end
+  end
+
+  describe '#to_h' do
+    it 'returns a hash representation of the book' do
+      expected_hash = {
+        title: 'Title',
+        author: 'Author',
+        rentals: []
+      }
+
+      expect(book.to_h).to eq(expected_hash)
     end
   end
 end
