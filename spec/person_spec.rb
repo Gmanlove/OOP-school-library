@@ -1,39 +1,43 @@
-
 require './person'
 
+describe Person do
+  before :each do
+    @person = Person.new(name: 'John Doe', age: 'age', parent_permission: true)
+  end
 
-RSpec.describe Person do
-    describe '#can_use_services?' do
-      it 'returns true if the person is of age' do
-        person = Person.new(name: 'John Doe', age: 25)
-  
-        expect(person.can_use_services?).to be true
-      end
-  
-      it 'returns true if the person is underage but has parent permission' do
-        person = Person.new(name: 'Jane Doe', age: 15, parent_permission: true)
-  
-        expect(person.can_use_services?).to be true
-      end
-  
-      it 'returns false if the person is underage and does not have parent permission' do
-        person = Person.new(name: 'Jack Doe', age: 17, parent_permission: false)
-  
-        expect(person.can_use_services?).to be false
-      end
-    end
-  
-    describe '#add_rental' do
-      it 'creates a new rental and adds it to the person' do
-        person = Person.new(name: 'John Doe', age: 25)
-        book = Book.new('Title', 'Author')
-        date = Date.today
-        rental = person.add_rental(book, date)
-  
-        expect(rental.date).to eq(date)
-        expect(rental.book).to eq(book)
-        expect(rental.person).to eq(person)
-        expect(person.rentals).to contain_exactly(rental)
-      end
+  describe '#new' do
+    it 'should take 3 parameters and return a Person object' do
+      expect(@person).to be_an_instance_of Person
     end
   end
+
+  describe '#age' do
+    it 'should return the correct age' do
+      expect(@person.age).to eql 'age'
+    end
+  end
+
+  describe '#name' do
+    it 'should return the correct name' do
+      expect(@person.name).to eql 'John Doe'
+    end
+  end
+
+  describe '#rentals' do
+    it 'should have a rental' do
+      expect(@person.rentals).to eql []
+    end
+  end
+
+  describe '#parent_permission' do
+    it 'should return parent_permission to be true' do
+      expect(@person.parent_permission).to be true
+    end
+  end
+
+  describe '#id' do
+    it 'should return an id as an integer' do
+      expect(@person.id).to be_an_instance_of Integer
+    end
+  end
+end

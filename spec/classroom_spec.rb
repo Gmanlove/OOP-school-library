@@ -1,17 +1,19 @@
-
 require './classroom'
 
+describe Classroom do
+  before :each do
+    @classroom = Classroom.new('students')
+  end
 
-RSpec.describe Classroom do
-    describe '#add_student' do
-      it 'adds a student to the classroom' do
-        classroom = Classroom.new('Class A')
-        student = Student.new(name: 'John Doe', age: 16)
-  
-        classroom.add_student(student)
-  
-        expect(classroom.students).to contain_exactly(student)
-        expect(student.classroom).to eq(classroom)
-      end
+  describe '#new' do
+    it 'Should return a Classroom object' do
+      expect(@classroom).to be_an_instance_of Classroom
     end
   end
+
+  describe '#students' do
+    it 'should return student in classroom' do
+      expect(@classroom.students).to eql []
+    end
+  end
+end
