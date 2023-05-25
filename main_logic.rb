@@ -10,7 +10,7 @@ def run_app(app)
   }
 
   loop do
-    display_menu_options
+    Menu.display_menu_options
     input = gets.chomp
 
     if menu_options.key?(input)

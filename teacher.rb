@@ -3,13 +3,20 @@ require_relative 'person'
 class Teacher < Person
   attr_reader :specialization, :type
 
-  def initialize(age, name, specialization, parent_permission: true)
-    super(age, name, parent_permission: parent_permission)
+  def initialize(name: 'Unknown', age: 0, specialization: '')
+    super(name: name, age: age)
     @specialization = specialization
-    @type = 'Teacher'
   end
 
   def can_use_services?
     true
+  end
+
+  def to_h
+    {
+      'name' => @name,
+      'age' => @age,
+      'specialization' => @specialization
+    }
   end
 end
