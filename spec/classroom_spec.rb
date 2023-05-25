@@ -11,8 +11,10 @@ describe Classroom do
     end
   end
 
-  describe '#students' do
+  describe '#add_students' do
     it 'should return student in classroom' do
+      student = double('Student')
+      allow(student).to receive(:classroom=).and_return('students')
       expect(@classroom.students).to eql []
     end
   end
