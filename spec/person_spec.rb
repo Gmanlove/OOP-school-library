@@ -1,43 +1,49 @@
-require './person'
+require_relative '../person'  # Assuming the Person class is defined in 'person.rb'
+require_relative '../book'    # Assuming the Book class is defined in 'book.rb'
+require 'date'
 
-describe Person do
-  before :each do
-    @person = Person.new(name: 'John Doe', age: 'age', parent_permission: true)
-  end
+RSpec.describe Person do
+  let(:person) { Person.new(name: 'John Doe', age: 25, parent_permission: true) }
+  let(:book) { Book.new('Harry Potter', 'J.K. Rowling') }
 
-  describe '#new' do
-    it 'should take 3 parameters and return a Person object' do
-      expect(@person).to be_an_instance_of Person
+  describe '#add_rental' do
+    it 'creates a new rental with the person and book' do
+      date = Date.today
+      rental = person.add_rental(book, date)
+      
+      expect(rental).to be_an_instance_of(Rental)
     end
   end
 
-  describe '#age' do
-    it 'should return the correct age' do
-      expect(@person.age).to eql 'age'
+
+  describe '#can_use_services?' do
+    context 'when the person is of age' do
+      it 'returns true' do
+        person.age = 21
+        expect(person.can_use_services?).to be(true)
+      end
+    end
+
+    context 'when the person is not of age but has parent permission' do
+      it 'returns true' do
+        person.age = 17
+        expect(person.can_use_services?).to be(true)
+      end
+    end
+
+    context 'when the person is not of age and does not have parent permission' do
+      it 'returns false' do
+        person.age = 15
+        person.parent_permission = false
+        expect(person.can_use_services?).to be(false)
+      end
     end
   end
 
-  describe '#name' do
-    it 'should return the correct name' do
-      expect(@person.name).to eql 'John Doe'
-    end
-  end
-
-  describe '#rentals' do
-    it 'should have a rental' do
-      expect(@person.rentals).to eql []
-    end
-  end
-
-  describe '#parent_permission' do
-    it 'should return parent_permission to be true' do
-      expect(@person.parent_permission).to be true
-    end
-  end
-
-  describe '#id' do
-    it 'should return an id as an integer' do
-      expect(@person.id).to be_an_instance_of Integer
+  describe '#correct_name' do
+    it 'returns the correct name' do
+      person.name = 'John Doe'
+      expect(person.correct_name).to eq('John Doe')
     end
   end
 end
